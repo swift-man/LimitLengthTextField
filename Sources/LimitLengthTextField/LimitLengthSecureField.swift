@@ -12,14 +12,26 @@ public struct LimitLengthSecureField: View {
   @ObservedObject
   private var textLengthChecker: TextLengthChecker
   
-  private let placeholder: String
+  private let prompt: Text?
+  private let titleKey: LocalizedStringKey
+  private let onChanged: (String) -> Void
   
-  public init(placeholder: String, limit: Int) {
-    self.textLengthChecker = TextLengthChecker(limit: limit)
-    self.placeholder = placeholder
+  public init(_ titleKey: LocalizedStringKey,
+              limit: Int,
+              prompt: Text? = nil,
+              onChanged: @escaping (String) -> Void) {
+    self.textLengthChecker = TextLengthChecker(text: "", limit: limit)
+    self.prompt = prompt
+    self.titleKey = titleKey
+    self.onChanged = onChanged
   }
   
   public var body: some View {
-    SecureField(placeholder, text: $textLengthChecker.text)
+    SecureField(titleKey,
+                text: $textLengthChecker.text,
+                prompt: prompt)
+      .onChange(of: textLengthChecker.text) {
+        self.onChanged($0)
+      }
   }
 }
