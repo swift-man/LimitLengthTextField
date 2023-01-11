@@ -6,8 +6,8 @@ import PackageDescription
 let package = Package(
     name: "LimitLengthTextField",
     platforms: [
-      .macOS(.v10_15),
-      .iOS(.v13)
+      .macOS(.v12),
+      .iOS(.v15)
     ],
     products: [
         .library(
