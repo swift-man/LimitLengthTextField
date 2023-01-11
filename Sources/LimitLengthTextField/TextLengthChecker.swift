@@ -10,12 +10,9 @@ import SwiftUI
 
 class TextLengthChecker: ObservableObject {
   @Published
-  var text = "" {
+  var text: String {
     didSet {
-      if characterLimit == 0 {
-        text = oldValue
-        return
-      }
+      guard characterLimit != 0 else { return }
       
       if text.count > characterLimit && oldValue.count <= characterLimit {
         text = oldValue
@@ -24,7 +21,8 @@ class TextLengthChecker: ObservableObject {
   }
   let characterLimit: Int
   
-  init(limit: Int) {
-    characterLimit = limit
+  init(text: String, limit: Int) {
+    self.text = text
+    self.characterLimit = limit
   }
 }
