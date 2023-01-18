@@ -8,27 +8,29 @@
 import SwiftUI
 
 public struct LimitLengthTextField: View {
-  @ObservedObject
-  private var textLengthChecker: TextLengthChecker
+  @Binding
+  private var text: String
   
   private let prompt: Text?
-  private let onChanged: (String) -> Void
+  private let characterLimit: Int
+  private let titleKey: LocalizedStringKey
   
-  public init(text: String,
+  public init(titleKey: LocalizedStringKey = "",
+              text: Binding<String>,
               numberOfCharacterLimit limit: Int,
-              prompt: Text? = nil,
-              onChanged: @escaping (String) -> Void) {
-    self.textLengthChecker = TextLengthChecker(text: text, limit: limit)
+              prompt: Text? = nil) {
+    self._text = text
+    self.characterLimit = limit
     self.prompt = prompt
-    self.onChanged = onChanged
+    self.titleKey = titleKey
   }
   
   public var body: some View {
-    TextField("",
-              text: $textLengthChecker.text,
+    TextField(titleKey,
+              text: $text,
               prompt: prompt)
-    .onChange(of: textLengthChecker.text) {
-      self.onChanged($0)
-    }
+    .onChange(of: text, perform: { text in
+      self.text = String(text.prefix(characterLimit))
+    })
   }
 }
