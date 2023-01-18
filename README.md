@@ -6,3 +6,16 @@
 ![Badge - Swift Package Manager](https://img.shields.io/badge/SPM-compatible-orange?style=flat-square)
 ![Badge - Platform](https://img.shields.io/badge/platform-macOS_12.0|iOS_15.0-yellow?style=flat-square)
 ![Badge - License](https://img.shields.io/badge/license-MIT-black?style=flat-square)
+
+
+```swift
+public var body: some View {
+  LimitLengthTextField(text: $text, numberOfCharacterLimit: limit)
+}
+```
+
+```swift
+public var body: some View {
+  LimitLengthSecureField(text: $text, numberOfCharacterLimit: limit)
+}
+```
